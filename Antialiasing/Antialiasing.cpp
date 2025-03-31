@@ -205,17 +205,17 @@ void render() {
 
     Scene scene(surfaces, camera, lights);
     ImagePlane imagePlane;
-    float gamma = 2.2f; // 감마 보정
-    float invGamma = 1.0f / gamma;
+    float gamma = 2.2f; // gamma
+	float invGamma = 1.0f / gamma;// 1/γ
 
-    int samples = 64;  // 슈퍼샘플링 개수 (64 샘플)
+	int samples = 64;  //number of supersampling 64
     float invSamples = 1.0f / float(samples);
 
     for (int iy = 0; iy < Height; ++iy) {
         for (int ix = 0; ix < Width; ++ix) {
             vec3 color(0.0f);
 
-            // 64개의 무작위 샘플 생성
+			// create multiple rays for supersampling 64
             for (int s = 0; s < samples; ++s) {
                 float x = (0.2f * (ix + static_cast<float>(rand()) / RAND_MAX)) / Width - 0.1f;
                 float y = (0.2f * (iy + static_cast<float>(rand()) / RAND_MAX)) / Height - 0.1f;
@@ -224,8 +224,8 @@ void render() {
                 color += scene.trace(ray, 0.0f, FLT_MAX);
             }
 
-            color *= invSamples;  // 평균 계산
-            color = pow(color, vec3(invGamma));  // 감마 보정
+			color *= invSamples;  //calculate average color
+            color = pow(color, vec3(invGamma));  //gamma correction
             imagePlane.set(ix, iy, color);
         }
     }

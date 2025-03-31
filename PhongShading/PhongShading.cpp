@@ -104,7 +104,7 @@ public:
 
 class Plane : public Surface {
 public:
-    float d;
+	float d;//plane equation: n.x + n.y + n.z + d = 0
 
     Plane(const vec3& n, float d, const Material& mat)
         : Surface(mat, normalize(n)), d(d) {
