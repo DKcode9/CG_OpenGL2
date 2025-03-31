@@ -7,3 +7,4 @@ To run the project in Visual Studio 2022, follow these steps:
 Additional Information
 **No extra libraries are required for execution**
 **The report should be submitted as a PDF**
+**it will take time to rendering antialiasing.cpp**
