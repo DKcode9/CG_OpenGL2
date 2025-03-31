@@ -188,7 +188,7 @@ void render() {
     OutputImage.resize(Width * Height * 3, 1.0f);
     Material planeMat(vec3(0.2f, 0.2f, 0.2f), vec3(1.0f, 1.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), 0);
     Material sphere1Mat(vec3(0.2f, 0, 0), vec3(1.0f, 0, 0), vec3(0, 0, 0), 0);
-    Material sphere2Mat(vec3(0, 0.2f, 0), vec3(0, 0.5f, 0), vec3(0.5f), 32);
+    Material sphere2Mat(vec3(0, 0.2f, 0), vec3(0, 0.5f, 0), vec3(0.5f,0.5f,0.5f), 32);
     Material sphere3Mat(vec3(0, 0, 0.2f), vec3(0, 0, 1.0f), vec3(0, 0, 0), 0);
 
     Plane plane(vec3(0.0f, 1.0f, 0.0f), -2.0f, planeMat);
@@ -205,6 +205,8 @@ void render() {
 
     Scene scene(surfaces, camera, lights);
     ImagePlane imagePlane;
+    float gamma = 2.2f; // gamma
+    float invGamma = 1.0f / gamma; // 1/¥ã
 
     for (int iy = 0; iy < Height; ++iy) {
         for (int ix = 0; ix < Width; ++ix) {
@@ -212,6 +214,8 @@ void render() {
             float y = (0.2f * (iy + 0.5f)) / Height - 0.1f;
             Ray ray = scene.camera.getRay(x, y);
             vec3 color = scene.trace(ray, 0.0f, FLT_MAX);
+
+            color = pow(color, vec3(invGamma));
             imagePlane.set(ix, iy, color);
         }
     }
